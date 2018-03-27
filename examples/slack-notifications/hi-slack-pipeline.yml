@@ -1,0 +1,53 @@
+---
+jobs:
+#- name: alert
+#  public: true
+#  plan:
+#  - task: say-hello
+#    config:
+#      platform: linux
+#      image: "docker:///ubuntu"
+#      run:
+#        path: echo
+#        args: ["Hello, world!"]
+- name: publish
+  public: true
+  plan:
+  - name: alert
+    public: true
+  #- put: hello-world-docker-image
+  #  params:
+  #    build: tutorial/tutorials/miscellaneous/docker-images/docker
+  - put: alert
+      params:
+        text: Hi everybody!
+        channel: "#concourse"
+        username: concourse
+        icon_url: http://cl.ly/image/3e1h0H3H2s0P/concourse-logo.png
+  - task: run
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: ((docker-hub-username))/concourse-tutorial-hello-world
+      run:
+        path: /bin/hello-world
+        args: []
+      params:
+        NAME: ((docker-hub-username))
+
+
+resources:
+- name: alert
+  type: slack-notification
+  source:
+    url: https://hooks.slack.com/services/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
+
+- name: hello-world-docker-image
+  type: docker-image
+  source:
+    email: ((docker-hub-email))
+    username: ((docker-hub-username))
+    password: ((docker-hub-password))
+    repository: ((docker-hub-username))/concourse-tutorial-hello-world
