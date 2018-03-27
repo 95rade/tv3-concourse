@@ -1,0 +1,7 @@
+github-deployment-control-repo: https://github.com/95rade/misc-support-files.git
+github-environment-control-file-path: environments/sandbox/environment.json
+github-username: 95rade
+github-password: Carbeth123
+github-access-token: 24f14d525a211ce59780cb9d6233a53e4a67f31e
+email-address-sender: rade95@gmail.com
+email-address-recipient: rade95@gmail.com
